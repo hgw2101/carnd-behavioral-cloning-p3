@@ -4,16 +4,16 @@ import numpy as np
 
 # No need to use this, this will apply a mask to the original image, but not changing
 # the dimension of the image, I need to change the dimension here
-# def region_of_interest(img, vertices):
-#   mask = np.zeros_like(img)
-#   if len(img.shape) > 2:
-#     channel_count = img.shape[2]  # i.e. 3 or 4 depending on your image
-#     ignore_mask_color = (255,) * channel_count
-#   else:
-#     ignore_mask_color = 255
-#   cv2.fillPoly(mask, vertices, ignore_mask_color)
-#   masked_image = cv2.bitwise_and(img, mask)
-#   return masked_image
+def region_of_interest(img, vertices):
+  mask = np.zeros_like(img)
+  if len(img.shape) > 2:
+    channel_count = img.shape[2]  # i.e. 3 or 4 depending on your image
+    ignore_mask_color = (255,) * channel_count
+  else:
+    ignore_mask_color = 255
+  cv2.fillPoly(mask, vertices, ignore_mask_color)
+  masked_image = cv2.bitwise_and(img, mask)
+  return masked_image
 
 lines = []
 with open('./training_data/driving_log.csv') as csvfile:
@@ -30,12 +30,16 @@ for line in lines:
   current_path = './training_data/IMG/' + filename
   image = cv2.imread(current_path)
 
-  cropped_image = image[60: 135, 0: 320]
+  # cropped_image = image[60: 135, 0: 320]
+
+  vertices = np.array([[(0,60),(0,135),(320,135),(320,60)]], dtype=np.int32)
+  cropped_image = region_of_interest(image, vertices)
+
   images.append(cropped_image)
   measurement = float(line[3])
   measurements.append(measurement)
 
-cv2.imwrite('cropped_image.png', images[-1])
+# cv2.imwrite('cropped_image.png', images[-1])
 
 X_train = np.array(images)
 y_train = np.array(measurements)
