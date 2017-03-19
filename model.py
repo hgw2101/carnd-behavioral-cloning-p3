@@ -48,7 +48,8 @@ from keras.models import Sequential
 from keras.layers import Flatten, Dense
 from keras.layers.convolutional import Convolution2D
 
-input_shape = (160,320,3)
+input_shape = (X_train.shape[1],X_train.shape[2],X_train.shape[3])
+
 model = Sequential()
 
 # 1st CNN layer
