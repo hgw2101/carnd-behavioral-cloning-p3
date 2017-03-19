@@ -56,6 +56,6 @@ model.add(Flatten())
 model.add(Dense(1)) #single node representing steering angle
 
 model.compile(loss='mse', optimizer='adam')
-model.fit(X_train, y_train, validation_split=0.2, shuffle=True)
+model.fit(X_train, y_train, nb_epoch=20, validation_split=0.2, shuffle=True)
 
 model.save('model.h5')
