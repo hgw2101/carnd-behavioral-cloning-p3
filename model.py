@@ -60,10 +60,25 @@ model = Sequential()
 nb_filters = 60
 filter_size = (3,3)
 model.add(Convolution2D(nb_filters, filter_size[0], filter_size[1], border_mode='valid', input_shape=input_shape))
+pool_size = (2,2)
+model.add(MaxPooling2D(pool_size=pool_size))
+
+# 2nd CNN layer
+nb_filters_2 = 90
+filter_size_2 = (3,3)
+pool_size_2 = (2,2)
+model.add(MaxPooling2D(pool_size=pool_size))
+
+# 3rd CNN layer
+nb_filters_3 = 120
+filter_size_3 = (3,3)
+pool_size_3 = (2,2)
+model.add(MaxPooling2D(pool_size=pool_size))
+
 model.add(Flatten())
-model.add(Dense(1)) #single node representing steering angle
+model.add(Dense(1)) #single node representing steering angle, unlike classification, which has # of final nodes equal to number of classes
 
 model.compile(loss='mse', optimizer='adam')
-model.fit(X_train, y_train, nb_epoch=20, validation_split=0.2, shuffle=True)
+model.fit(X_train, y_train, nb_epoch=5, validation_split=0.2, shuffle=True)
 
 model.save('model.h5')
