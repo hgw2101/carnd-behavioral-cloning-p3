@@ -50,6 +50,7 @@ y_train = np.array(measurements)
 # model training
 from keras.models import Sequential
 from keras.layers import Flatten, Dense
+from keras.layers import Lambda
 from keras.layers.convolutional import Convolution2D
 from keras.layers.pooling import MaxPooling2D
 
@@ -57,10 +58,13 @@ input_shape = (X_train.shape[1],X_train.shape[2],X_train.shape[3])
 
 model = Sequential()
 
+# preprocessing, normalizing (/255) and mean centering (-.5)
+model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=input_shape))
+
 # 1st CNN layer
 nb_filters = 60
 filter_size = (3,3)
-model.add(Convolution2D(nb_filters, filter_size[0], filter_size[1], border_mode='valid', input_shape=input_shape))
+model.add(Convolution2D(nb_filters, filter_size[0], filter_size[1], border_mode='valid'))
 pool_size = (2,2)
 model.add(MaxPooling2D(pool_size=pool_size))
 
@@ -80,6 +84,6 @@ model.add(Flatten())
 model.add(Dense(1)) #single node representing steering angle, unlike classification, which has # of final nodes equal to number of classes
 
 model.compile(loss='mse', optimizer='adam')
-model.fit(X_train, y_train, nb_epoch=10, validation_split=0.2, shuffle=True)
+model.fit(X_train, y_train, nb_epoch=7, validation_split=0.2, shuffle=True)
 
 model.save('model.h5')
