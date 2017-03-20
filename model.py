@@ -34,10 +34,16 @@ for line in lines:
 
   vertices = np.array([[(0,60),(0,135),(320,135),(320,60)]], dtype=np.int32)
   cropped_image = region_of_interest(image, vertices)
-
   images.append(cropped_image)
+
   measurement = float(line[3])
   measurements.append(measurement)
+
+  flipped_image = np.fliplr(cropped_image)
+  images.append(flipped_image)
+  flipped_measurement = -measurement
+  measurements.append(flipped_measurement)
+
 
 # cv2.imwrite('cropped_image.png', images[-1])
 
@@ -84,6 +90,6 @@ model.add(Flatten())
 model.add(Dense(1)) #single node representing steering angle, unlike classification, which has # of final nodes equal to number of classes
 
 model.compile(loss='mse', optimizer='adam')
-model.fit(X_train, y_train, nb_epoch=7, validation_split=0.2, shuffle=True)
+model.fit(X_train, y_train, nb_epoch=5, validation_split=0.2, shuffle=True)
 
 model.save('model.h5')
