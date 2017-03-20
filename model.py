@@ -87,6 +87,8 @@ pool_size_3 = (2,2)
 model.add(MaxPooling2D(pool_size=pool_size))
 
 model.add(Flatten())
+model.add(Dense(128))
+model.add(Dense(64))
 model.add(Dense(1)) #single node representing steering angle, unlike classification, which has # of final nodes equal to number of classes
 
 model.compile(loss='mse', optimizer='adam')
