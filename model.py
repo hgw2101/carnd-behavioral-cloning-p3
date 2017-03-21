@@ -73,6 +73,6 @@ model.add(Dense(64))
 model.add(Dense(1)) #single node representing steering angle, unlike classification, which has # of final nodes equal to number of classes
 
 model.compile(loss='mse', optimizer='adam')
-model.fit(X_train, y_train, nb_epoch=3, validation_split=0.2, shuffle=True)
+model.fit(X_train, y_train, nb_epoch=5, validation_split=0.2, shuffle=True)
 
 model.save('model.h5')
