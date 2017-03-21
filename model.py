@@ -2,6 +2,11 @@ import csv
 import cv2
 import numpy as np
 
+def process_image(fileline):
+  filepath = './training_data/IMG/' + fileline.split("/")[-1]
+  image = cv2.imread(filepath)
+  return image
+
 lines = []
 with open('./training_data/driving_log.csv') as csvfile:
   reader = csv.reader(csvfile)
@@ -9,23 +14,30 @@ with open('./training_data/driving_log.csv') as csvfile:
     lines.append(line)
     # print("this is line: ", line[0])
 
+
 images = []
 measurements = []
 for line in lines:
-  filename = line[0].split("/")[-1]
   # print("this is filename: ", filename)
-  current_path = './training_data/IMG/' + filename
-  image = cv2.imread(current_path)
+  center_image = process_image(line[0])
+  left_image = process_image(line[1])
+  right_image = process_image(line[2])
 
-  images.append(image)
+  center_measurement = float(line[3])
+  correction = 0.2
+  left_measurement = center_measurement + correction
+  right_measurement = center_measurement - correction
 
-  measurement = float(line[3])
-  measurements.append(measurement)
+  flipped_center_image = np.fliplr(center_image)
+  flipped_left_image = np.fliplr(left_image)
+  flipped_right_image = np.fliplr(right_image)
 
-  flipped_image = np.fliplr(image)
-  images.append(flipped_image)
-  flipped_measurement = -measurement
-  measurements.append(flipped_measurement)
+  flipped_center_measurement = -center_measurement
+  flipped_left_measurement = -left_measurement
+  flipped_right_measurement = -right_measurement
+
+  images.extend(center_image, left_image, right_image, flipped_center_image, flipped_left_image, flipped_right_image)
+  measurements.extend(center_measurement, left_measurement, right_measurement, flipped_center_measurement, flipped_left_measurement, flipped_right_measurement)
 
 X_train = np.array(images)
 y_train = np.array(measurements)
