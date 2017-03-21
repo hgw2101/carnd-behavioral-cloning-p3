@@ -67,12 +67,6 @@ filter_size_3 = (3,3)
 pool_size_3 = (2,2)
 model.add(MaxPooling2D(pool_size=pool_size))
 
-# 4th CNN layer
-nb_filters_4 = 200
-filter_size_4 = (3,3)
-pool_size_4 = (2,2)
-model.add(MaxPooling2D(pool_size=pool_size))
-
 model.add(Flatten())
 model.add(Dense(128))
 model.add(Dense(64))
