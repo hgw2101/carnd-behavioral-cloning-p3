@@ -72,7 +72,7 @@ filter_size = (3,3)
 model.add(Convolution2D(nb_filters, filter_size[0], filter_size[1], border_mode='valid'))
 pool_size = (2,2)
 model.add(MaxPooling2D(pool_size=pool_size))
-model.add(Dropout(.5))
+# model.add(Dropout(.5))
 
 # 2nd CNN layer
 nb_filters_2 = 90
@@ -84,6 +84,12 @@ model.add(MaxPooling2D(pool_size=pool_size))
 nb_filters_3 = 120
 filter_size_3 = (3,3)
 pool_size_3 = (2,2)
+model.add(MaxPooling2D(pool_size=pool_size))
+
+# 4th CNN layer
+nb_filters_4 = 200
+filter_size_4 = (3,3)
+pool_size_4 = (2,2)
 model.add(MaxPooling2D(pool_size=pool_size))
 
 model.add(Flatten())
