@@ -55,8 +55,7 @@ y_train = np.array(measurements)
 
 # model training
 from keras.models import Sequential
-from keras.layers import Flatten, Dense
-from keras.layers import Lambda
+from keras.layers import Flatten, Dense, Dropout, Lambda
 from keras.layers.convolutional import Convolution2D
 from keras.layers.pooling import MaxPooling2D
 
@@ -73,6 +72,7 @@ filter_size = (3,3)
 model.add(Convolution2D(nb_filters, filter_size[0], filter_size[1], border_mode='valid'))
 pool_size = (2,2)
 model.add(MaxPooling2D(pool_size=pool_size))
+model.add(Dropout(.5))
 
 # 2nd CNN layer
 nb_filters_2 = 90
