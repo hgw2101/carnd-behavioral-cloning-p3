@@ -60,28 +60,39 @@ model.add(Cropping2D(cropping=((60,25), (0,0)), input_shape=input_shape))
 model.add(Lambda(lambda x: (x / 255.0) - 0.5))
 
 # 1st CNN layer
-nb_filters = 60
-filter_size = (3,3)
-model.add(Convolution2D(nb_filters, filter_size[0], filter_size[1], border_mode='valid'))
-pool_size = (2,2)
-model.add(MaxPooling2D(pool_size=pool_size))
-# model.add(Dropout(.5))
+nb_filters =24
+filter_size = (5,5)
+strides = (2,2)
+model.add(Convolution2D(nb_filters, filter_size[0], filter_size[1], subsample=strides, border_mode='valid', activation="relu"))
 
 # 2nd CNN layer
-nb_filters_2 = 90
-filter_size_2 = (3,3)
-pool_size_2 = (2,2)
-model.add(MaxPooling2D(pool_size=pool_size))
+nb_filters_2 = 36
+filter_size_2 = (5,5)
+strides_2 = (2,2)
+model.add(Convolution2D(nb_filters_2, filter_size_2[0], filter_size_2[1], subsample=strides_2, border_mode='valid', activation="relu"))
 
 # 3rd CNN layer
-nb_filters_3 = 120
-filter_size_3 = (3,3)
-pool_size_3 = (2,2)
-model.add(MaxPooling2D(pool_size=pool_size))
+nb_filters_3 = 48
+filter_size_3 = (5,5)
+strides_3 = (2,2)
+model.add(Convolution2D(nb_filters_3, filter_size_3[0], filter_size_3[1], subsample=strides_3, border_mode='valid', activation="relu"))
+
+# 4th CNN layer
+nb_filters_4 =64
+filter_size_4 = (3,3)
+strides_4 = (2,2)
+model.add(Convolution2D(nb_filters_4, filter_size_4[0], filter_size_4[1], subsample=strides_4, border_mode='valid', activation="relu"))
+
+# 5th CNN layer
+nb_filters_5 =64
+filter_size_5 = (3,3)
+strides_5 = (2,2)
+model.add(Convolution2D(nb_filters_5, filter_size_5[0], filter_size_5[1], subsample=strides_5, border_mode='valid', activation="relu"))
 
 model.add(Flatten())
-model.add(Dense(128))
-model.add(Dense(64))
+model.add(Dense(100))
+model.add(Dense(50))
+model.add(Dense(10))
 model.add(Dense(1)) #single node representing steering angle, unlike classification, which has # of final nodes equal to number of classes
 
 model.compile(loss='mse', optimizer='adam')
