@@ -80,14 +80,12 @@ model.add(Convolution2D(nb_filters_3, filter_size_3[0], filter_size_3[1], subsam
 # 4th CNN layer
 nb_filters_4 =64
 filter_size_4 = (3,3)
-strides_4 = (2,2)
-model.add(Convolution2D(nb_filters_4, filter_size_4[0], filter_size_4[1], subsample=strides_4, border_mode='valid', activation="relu"))
+model.add(Convolution2D(nb_filters_4, filter_size_4[0], filter_size_4[1], border_mode='valid', activation="relu"))
 
 # 5th CNN layer
 nb_filters_5 =64
 filter_size_5 = (3,3)
-strides_5 = (2,2)
-model.add(Convolution2D(nb_filters_5, filter_size_5[0], filter_size_5[1], subsample=strides_5, border_mode='valid', activation="relu"))
+model.add(Convolution2D(nb_filters_5, filter_size_5[0], filter_size_5[1], border_mode='valid', activation="relu"))
 
 model.add(Flatten())
 model.add(Dense(100))
