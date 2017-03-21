@@ -36,8 +36,8 @@ for line in lines:
   flipped_left_measurement = -left_measurement
   flipped_right_measurement = -right_measurement
 
-  images.extend(center_image, left_image, right_image, flipped_center_image, flipped_left_image, flipped_right_image)
-  measurements.extend(center_measurement, left_measurement, right_measurement, flipped_center_measurement, flipped_left_measurement, flipped_right_measurement)
+  images.extend([center_image, left_image, right_image, flipped_center_image, flipped_left_image, flipped_right_image])
+  measurements.extend([center_measurement, left_measurement, right_measurement, flipped_center_measurement, flipped_left_measurement, flipped_right_measurement])
 
 X_train = np.array(images)
 y_train = np.array(measurements)
