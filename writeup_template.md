@@ -1,11 +1,5 @@
 #**Behavioral Cloning** 
 
-##Writeup Template
-
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
----
-
 **Behavioral Cloning Project**
 
 The goals / steps of this project are the following:
@@ -54,23 +48,23 @@ The model.py file contains the code for training and saving the convolution neur
 
 ####1. An appropriate model architecture has been employed
 
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
+My model consists of a convolution neural network with 5x5 and 3x3 filter sizes and depths between 24 and 64 (model.py lines 77-102) 
 
-The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18). 
+The model includes RELU layers to introduce nonlinearity (code lines 80, 86, 92, 97 and 102), and the data is normalized in the model using a Keras lambda layer (code line 72). 
 
 ####2. Attempts to reduce overfitting in the model
 
-The model contains dropout layers in order to reduce overfitting (model.py lines 21). 
+I initially experimented with dropout by applying a Keras Dropout layer. It made the model's performance a lot worse, so I decided to try other methods to reduce overfitting.
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+The model was trained and validated on different data sets to ensure that the model was not overfitting. I initially had one lap of data, then I added another lap of data, then flipped images. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
 ####3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
+The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 110).
 
 ####4. Appropriate training data
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road ... 
+Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving (2 laps as noted above), 1 lap of recovering from the left and right sides of the road, and 1 lap of reverse driving.
 
 For details about how I created the training data, see the next section. 
 
@@ -78,23 +72,47 @@ For details about how I created the training data, see the next section.
 
 ####1. Solution Design Approach
 
-The overall strategy for deriving a model architecture was to ...
+The overall strategy for deriving a model architecture was to use a multi-layered convolutional network with good preprocessing and data augmentation metrics.
 
-My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
+However, to test that my setup works, my first step was to use a single fully-connected layer with a single output node. This, as pointed out in the project instructions, was to make sure that everything is working fine. Once I have that, I constructed a convolution neural network model similar to the LeNet model. I thought this model might be appropriate because the LeNet model worked well for the Traffic Sign Clasffier project so that seemed like a good starting point.
 
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
+I started with just one lap of center lane driving data.
 
-To combat the overfitting, I modified the model so that ...
+In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had high mean squared errors (MSE) on both the training set and the validation set. This implied that the model was underfitting. When I used my model to drive the car in the simulator, it would just spin around.
 
-Then I ... 
+To reduce underfitting, I did the following:
 
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
+* 1) Add a preprocessing step with normalization and mean centering
+This step alone helped me drastically reduce both the training and validation loss.
 
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
+* 2) Augment the data by flipping the images
+This gave me additional training data without using the simulator to generate the data. Both training and validation loss went down for a bit.
+
+* 3) Add more training data
+I added one additional lap of center lane driving, plus one lap of recovery driving, and one lap of reverse driving. I made sure to apply the flip image step to all training data.
+
+* 4) Use the left and right images and add a correction factor to the angle
+So far I had just been using the center images. Here I utilized the left and right images and added an arbitrary correction factor of 0.2, i.e. +0.2 for the left images and -0.2 for the right images.
+
+After the above mentioned steps, my model could drive the car reasonably well for a bit in the simulator, but would veer off the track when it gets to the first big curve.
+
+Now that I have decent data but the model is still poor, this made me believe that I should focus on improving my network parameters instead. Instead of using LeNet, I decided to apply the Nvidia model, with 5 convolutional layers. This really helped me improve my model and the car was able to drive automously around the track without leaving the road, although there were a few instances the car would stay close to the left side of the road as opposed to the center.
+
+I tried to collect more data using training data from track 2, but it did not help me improve the model, so I stopped there.
 
 ####2. Final Model Architecture
 
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
+The final model architecture (model.py lines 69-111) consisted of a convolution neural network with the following layers and layer sizes:
+
+* 1) CNN: 24 filter, with filter size of 5x5, and strides of 2x2
+* 2) CNN: 36 filter, with filter size of 5x5, and strides of 2x2
+* 3) CNN: 48 filter, with filter size of 5x5, and strides of 2x2
+* 4) CNN: 64 filter, with filter size of 3x3, and strides of 1x1
+* 5) CNN: 64 filter, with filter size of 3x3, and strides of 1x1
+* 6) Fully connected: 100 nodes
+* 7) Fully connected: 50 nodes
+* 8) Fully connected: 10 nodes
+* 9) Fully connected: single node
 
 Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
 
@@ -104,26 +122,25 @@ Here is a visualization of the architecture (note: visualizing the architecture 
 
 To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
 
-![alt text][image2]
+![center lane driving][image2]
 
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
+I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to recover after having drifted to the left or right sides of the track. These images show what a recovery looks like starting from right back to center :
 
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
+![recovery 1][image3]
+![recovery 2][image4]
+![recovery 3][image5]
 
-Then I repeated this process on track two in order to get more data points.
+Then I repeated this process on track two in order to get more data points. However, data from track two did not help me improve the model, so I did not end up using these additional data.
 
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
+To augment the data sat, I also flipped images and angles thinking that this would give me more training data points. For example, here is an image that has then been flipped:
 
-![alt text][image6]
-![alt text][image7]
+![original][image6]
+![fliipped][image7]
 
-Etc ....
+After the collection process, I had over 30K data points. I then preprocessed this data by applying normalization (divide every pixel by 255) and mean centering (subtract 0.5 from every normalized pixel).
 
-After the collection process, I had X number of data points. I then preprocessed this data by ...
+I finally randomly shuffled the data set and put 20% of the data into a validation set.
 
+Since I have so many data points, I decided to use a generator method for better memory management.
 
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
-
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 5 as evidenced by the observation that validation loss seemed to stay steady after 5 epochs. I used an adam optimizer so that manually training the learning rate wasn't necessary.
