@@ -110,4 +110,4 @@ model.add(Dense(1)) #single node representing steering angle, unlike classificat
 model.compile(loss='mse', optimizer='adam')
 model.fit_generator(train_generator, samples_per_epoch= len(train_samples), validation_data=validation_generator, nb_val_samples=len(validation_samples), nb_epoch=5)
 
-model.save('model_100.h5')
+model.save('model.h5')
