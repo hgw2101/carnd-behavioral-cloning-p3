@@ -12,13 +12,13 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/placeholder.png "Model Visualization"
-[image2]: ./examples/placeholder.png "Grayscaling"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
+[image1]: https://bytebucket.org/hgw2101/carnd-behavioral-cloning-p3/raw/28fd3b477c60c697f324ab74d9b64232532ca6f3/write_up_images/model_architecture.png?token=75d872ac48854fcd74829ba5e6a1569eae90f4b2 "Model Visualization"
+[image2]: https://bytebucket.org/hgw2101/carnd-behavioral-cloning-p3/raw/28fd3b477c60c697f324ab74d9b64232532ca6f3/write_up_images/center_lane_driving.jpg?token=c2d5a731a9d9aa6b4ac34cb18a3a0a8879ba697f "Center Lane Driving"
+[image3]: https://bytebucket.org/hgw2101/carnd-behavioral-cloning-p3/raw/28fd3b477c60c697f324ab74d9b64232532ca6f3/write_up_images/recovery_1.jpg?token=1cad0d9fec8159a62fb93efa3791e432ad2e8a63 "Recovery Image"
+[image4]: https://bytebucket.org/hgw2101/carnd-behavioral-cloning-p3/raw/28fd3b477c60c697f324ab74d9b64232532ca6f3/write_up_images/recovery_2.jpg?token=8431bd3d010e612d311ee21d3f7d6adecdb7971f "Recovery Image"
+[image5]: https://bytebucket.org/hgw2101/carnd-behavioral-cloning-p3/raw/28fd3b477c60c697f324ab74d9b64232532ca6f3/write_up_images/recovery_3.jpg?token=fc005fccbddb9641b9f745c8b517a397f39a1052 "Recovery Image"
+[image6]: https://bytebucket.org/hgw2101/carnd-behavioral-cloning-p3/raw/28fd3b477c60c697f324ab74d9b64232532ca6f3/write_up_images/original.jpg?token=9e5a77d6f38f0f3973a94df504ef3776df48db7b "Normal Image"
+[image7]: https://bytebucket.org/hgw2101/carnd-behavioral-cloning-p3/raw/28fd3b477c60c697f324ab74d9b64232532ca6f3/write_up_images/flipped.jpg?token=abb72b6460b9fcd95d450869688eeb3df0b127ff "Flipped Image"
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
