@@ -58,6 +58,8 @@ I initially experimented with dropout by applying a Keras Dropout layer. It made
 
 The model was trained and validated on different data sets to ensure that the model was not overfitting. I initially had one lap of data, then I added another lap of data, then flipped images. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
+EDIT: after getting feedback from my reviewer, I decided to apply dropout to every CNN layer. I also generated new training data to start fresh. This ended up working very well, with dropout applied, my model performed just as well on track 1 but this is likely more generalized than the earlier model without dropout layers. The newly submitted video was generated using the model that has dropout layers.
+
 ####3. Model parameter tuning
 
 The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 110).
