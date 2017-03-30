@@ -78,28 +78,33 @@ nb_filters =24
 filter_size = (5,5)
 strides = (2,2)
 model.add(Convolution2D(nb_filters, filter_size[0], filter_size[1], subsample=strides, border_mode='valid', activation="relu"))
+model.add(Dropout(0.5))
 
 # 2nd CNN layer
 nb_filters_2 = 36
 filter_size_2 = (5,5)
 strides_2 = (2,2)
 model.add(Convolution2D(nb_filters_2, filter_size_2[0], filter_size_2[1], subsample=strides_2, border_mode='valid', activation="relu"))
+model.add(Dropout(0.5))
 
 # 3rd CNN layer
 nb_filters_3 = 48
 filter_size_3 = (5,5)
 strides_3 = (2,2)
 model.add(Convolution2D(nb_filters_3, filter_size_3[0], filter_size_3[1], subsample=strides_3, border_mode='valid', activation="relu"))
+model.add(Dropout(0.5))
 
 # 4th CNN layer
 nb_filters_4 =64
 filter_size_4 = (3,3)
 model.add(Convolution2D(nb_filters_4, filter_size_4[0], filter_size_4[1], border_mode='valid', activation="relu"))
+model.add(Dropout(0.5))
 
 # 5th CNN layer
 nb_filters_5 =64
 filter_size_5 = (3,3)
 model.add(Convolution2D(nb_filters_5, filter_size_5[0], filter_size_5[1], border_mode='valid', activation="relu"))
+model.add(Dropout(0.5))
 
 model.add(Flatten())
 model.add(Dense(100))
@@ -108,6 +113,6 @@ model.add(Dense(10))
 model.add(Dense(1)) #single node representing steering angle, unlike classification, which has # of final nodes equal to number of classes
 
 model.compile(loss='mse', optimizer='adam')
-model.fit_generator(train_generator, samples_per_epoch= len(train_samples), validation_data=validation_generator, nb_val_samples=len(validation_samples), nb_epoch=5)
+model.fit_generator(train_generator, samples_per_epoch= len(train_samples), validation_data=validation_generator, nb_val_samples=len(validation_samples), nb_epoch=10)
 
 model.save('model.h5')
